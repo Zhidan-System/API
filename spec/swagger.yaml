@@ -6,7 +6,7 @@ swagger: '2.0'
 #   <schemes>://<host><basepath>
 schemes:
   - http # Remove if your API doesn't support HTTP
-  - https # Remove if your API donsn't support HTTPS
+  # - https # Remove if your API donsn't support HTTPS
 host: zhidan.site:8080 # Replace with your hostname. You can also specify port e.g. example.com:777
 basePath: /api/v1 # Replace with your basePath. Note: SHOULD begin with '/'.
 info:
