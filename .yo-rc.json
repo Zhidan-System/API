@@ -1,7 +1,6 @@
 {
   "generator-openapi-repo": {
-    "importExistingSpec": true,
-    "importedSpec": "./ZhidanAPI.yaml",
+    "importExistingSpec": false,
     "name": "Zhidan",
     "repo": "Zhidan-System/API",
     "splitSpec": false,
