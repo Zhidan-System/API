@@ -31,7 +31,7 @@ info:
     name: Apache 2.0
     url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
   x-logo:
-    url: 'https://github.com/Zhidan-System/Dashboard/blob/master/assets/images/logo.jpg'
+    url: 'https://raw.githubusercontent.com/Zhidan-System/Dashboard/master/assets/images/logo.jpg'
 externalDocs:
   description: 知单(Zhidan)智慧餐厅系统，为食客与后厨提供高效的下单通道。
   url: 'https://github.com/Zhidan-System/Dashboard'
