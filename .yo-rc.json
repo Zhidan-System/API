@@ -1,0 +1,11 @@
+{
+  "generator-openapi-repo": {
+    "importExistingSpec": true,
+    "importedSpec": "swagger.yaml",
+    "name": "Zhidan",
+    "repo": "https://zhidan-system.github.io/API",
+    "splitSpec": true,
+    "samples": true,
+    "installSwaggerUI": true
+  }
+}
