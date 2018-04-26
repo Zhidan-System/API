@@ -1,22 +1,70 @@
+# This is an **example** API to demontstrate features of OpenAPI specification.
+# It doesn't cover all OpenAPI features. For more full example check out: https://github.com/APIs-guru/petstore_extended
+
 swagger: '2.0'
-info:
-  version: 0.0.1
-  title: Zhidan
-  description: 知单(Zhidan)智慧餐厅系统后端API文档
-  license:
-    name: MIT
-    url: https://github.com/apiaryio/polls-api/blob/master/LICENSE
-host: polls.apiblueprint.org
-basePath: /
+# You should specify common part of your endpoints in the following format:
+#   <schemes>://<host><basepath>
 schemes:
-- http
-consumes:
-- application/json
+  - http # Remove if your API doesn't support HTTP
+  - https # Remove if your API donsn't support HTTPS
+host: zhidan.site:8080 # Replace with your hostname. You can also specify port e.g. example.com:777
+basePath: /api/v1 # Replace with your basePath. Note: SHOULD begin with '/'.
+info:
+  # Describe your API here, you can use GFM (https://guides.github.com/features/mastering-markdown) here
+  description: |
+    This is a Zhidan System API documents created with OpenAPI specification.
+   
+  version: '1.0.0' # Your API version
+  # It can be any string but it is better to use semantic versioning: http://semver.org/
+  # Warning: OpenAPI require version to be string, but without quotation YAML can recognize it as number.
+
+  title: Zhidan System # Replace with your API title
+  # Keep it simple. Don't add "API" or verison at the end of the string.
+
+  # termsOfService: 'https://example.com/terms/' # [Optional] Replace with an URL to your ToS
+  
+  # contact:
+  #   email: contact@example.com # [Optional] Replace with your contact email
+  #   url: 'http://example.com/contact' # [Optional] Replace with link to your contact form
+  
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+  x-logo:
+    url: 'https://github.com/Zhidan-System/Dashboard/blob/master/assets/images/logo.jpg'
+externalDocs:
+  description: 知单(Zhidan)智慧餐厅系统，为食客与后厨提供高效的下单通道。
+  url: 'https://github.com/Zhidan-System/Dashboard'
 produces:
-- application/json
+  # List of mime types your API endpoins can return.
+  # This is a global default. You can OVERWRITE it in each specific operation.
+  # Remove the ones not used in your API
+  - application/json
+  - application/xml
+  - text/csv
+  # you can add any mime type your API produces to the list
+consumes:
+  # List of mime types your API endpoins consumes.
+  # This is a global default. You can OVERWRITE it in each specific operation.
+  # Remove the ones not supported by your API
+  - application/json
+  - application/xml
+  # you can add any mime type your API consumes to the list
+
+# A list of tags used by the specification with additional metadata.
+# The order of the tags can be used to reflect on their order by the parsing tools.
+tags:
+  - name: Restaurant
+    description: Operations about restaurant
+# Security scheme definitions that can be used across the specification.
+
+# Holds the relative paths to the individual endpoints. The path is appended to the
+# basePath in order to construct the full URL. 
 paths:
   /restaurant/account:
     get:
+      tags:
+        - Restaurant
       summary: Verify manager's number.
       parameters:
         - in: query
@@ -27,6 +75,8 @@ paths:
         200:
           description: OK
     post:
+      tags:
+        - Restaurant
       summary: Sign up restaurant account
       consumes:
         - application/x-www-form-urlencoded
@@ -48,6 +98,8 @@ paths:
           description: OK
   /restaurant/session:
     post:
+      tags:
+        - Restaurant
       summary: Sign in restaurant account at first and create session
       consumes:
         - application/x-www-form-urlencoded
