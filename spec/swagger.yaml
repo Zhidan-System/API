@@ -56,12 +56,14 @@ consumes:
 tags:
   - name: Restaurant
     description: Operations about restaurant
+  - name: Session
+    description: Record restaurant sign-in(sign-out) status
 # Security scheme definitions that can be used across the specification.
 
 # Holds the relative paths to the individual endpoints. The path is appended to the
 # basePath in order to construct the full URL. 
 paths:
-  /restaurant/account:
+  /restaurant:
     get:
       tags:
         - Restaurant
@@ -70,6 +72,7 @@ paths:
         - in: query
           name: number
           type: string
+          required: true
           description: manager's number
       responses:
         200:
@@ -90,15 +93,18 @@ paths:
         - in: formData
           name: number
           type: string
+          required: true
           description: manager's number
         - in: formData
           name: password
           type: string
+          required: true
           description: manager's password
         - in: formData
           name: restaurant_name
           type: string
-          description: restaurant name
+          required: true
+          description: restaurant's name
       responses:
         201:
           description: OK
@@ -106,21 +112,23 @@ paths:
           description: Bad Request
         500:
           description: Internal Server Error
-  /restaurant/session:
+  /session:
     post:
       tags:
-        - Restaurant
-      summary: Sign in restaurant account at first and create session
+        - Session
+      summary: Create sign-in session.
       consumes:
         - application/x-www-form-urlencoded
       parameters:
         - in: formData
           name: number
           type: string
+          required: true
           description: manager's number
         - in: formData
           name: password
           type: string
+          required: true
           description: manager's password
       responses:
         201:
@@ -135,14 +143,16 @@ definitions:
     properties:
       manager_number:
         type: string
-        description: manager number
+        description: manager's number
       restaurant_name:
         type: string
-        description: restaurant name
+        description: restaurant's name
       description:
         type: string
-        description: restaurant brief description
+        description: restaurant's brief description
+      image_id:
+        type: string
+        description: restaurant's picture
       restaurant_number:
         type: string
-        description: restaurant number
-      
+        description: restaurant's number
