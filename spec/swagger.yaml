@@ -55,9 +55,13 @@ consumes:
 # The order of the tags can be used to reflect on their order by the parsing tools.
 tags:
   - name: Restaurant
-    description: Operations about restaurant
+    description: 餐厅信息
   - name: Session
-    description: Record restaurant sign-in(sign-out) status
+    description: 登录会话状态
+  - name: Category
+    description: 品类
+  - name: Dish
+    description: 单品
 # Security scheme definitions that can be used across the specification.
 
 # Holds the relative paths to the individual endpoints. The path is appended to the
@@ -67,7 +71,7 @@ paths:
     get:
       tags:
         - Restaurant
-      summary: Get restaurant account message.
+      summary: 获取餐厅账户信息
       parameters:
         - in: query
           name: number
@@ -86,7 +90,7 @@ paths:
     post:
       tags:
         - Restaurant
-      summary: Sign up restaurant account
+      summary: 注册餐厅
       consumes:
         - application/x-www-form-urlencoded
       parameters:
@@ -116,7 +120,7 @@ paths:
     post:
       tags:
         - Session
-      summary: Create sign-in session.
+      summary: 账户密码登录餐厅
       consumes:
         - application/x-www-form-urlencoded
       parameters:
@@ -140,7 +144,7 @@ paths:
     get:
       tags:
         - Session
-      summary: Get sign-in state
+      summary: 检查登录状态
       consumes:
         - application/x-www-form-urlencoded
       responses:
@@ -153,9 +157,50 @@ paths:
     delete:
       tags:
         - Session
-      summary: Sign out
+      summary: 登出
       consumes:
         - application/x-www-form-urlencoded
+      responses:
+        200:
+          description: OK
+        400:
+          description: No login
+        500:
+          description: Internal Server Error
+  /category:
+    get:
+      tags:
+        - Category
+      summary: 获取所有品类
+      consumes:
+        - application/x-www-form-urlencoded
+      parameters:
+        - in: query
+          name: number
+          type: string
+          required: true
+      responses:
+        200:
+          description: OK
+        400:
+          description: No login
+        500:
+          description: Internal Server Error
+  /dish:
+    get:
+      tags:
+        - Dish
+      summary: 获取单品信息
+      consumes:
+        - application/x-www-form-urlencoded
+      parameters:
+        - in: query
+          name: number
+          type: string
+          required: true
+        - in: query
+          name: category
+          type: string
       responses:
         200:
           description: OK
