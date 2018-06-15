@@ -58,16 +58,47 @@ tags:
     description: 餐厅信息
   - name: Session
     description: 登录会话状态
-  - name: Category
-    description: 品类
-  - name: Dish
-    description: 单品
+  - name: Menu
+    description: 菜单
+  - name: Order
+    description: 订单
 # Security scheme definitions that can be used across the specification.
 
 # Holds the relative paths to the individual endpoints. The path is appended to the
 # basePath in order to construct the full URL. 
 paths:
   /restaurant:
+    post:
+      tags:
+        - Restaurant
+      summary: 注册餐厅
+      consumes:
+        - application/x-www-form-urlencoded
+      parameters:
+        - in: formData
+          name: manager_number
+          type: string
+          required: true
+          description: manager's number
+        - in: formData
+          name: password
+          type: string
+          required: true
+          description: manager's password
+        - in: formData
+          name: restaurant_name
+          type: string
+          required: true
+          description: restaurant's name
+      responses:
+        201:
+          description: OK
+          schema:
+            $ref: "#/definitions/Restaurant"
+        400:
+          description: Bad Request
+        500:
+          description: Internal Server Error
     get:
       tags:
         - Restaurant
@@ -87,30 +118,21 @@ paths:
           description: Bad Request
         500:
           description: Internal Server Error
-    post:
+  /restaurant/desk:
+    put:
       tags:
         - Restaurant
-      summary: 注册餐厅
+      summary: 餐厅更新餐桌数量
       consumes:
         - application/x-www-form-urlencoded
       parameters:
         - in: formData
-          name: number
-          type: string
+          name: desk_number
+          type: integer
           required: true
-          description: manager's number
-        - in: formData
-          name: password
-          type: string
-          required: true
-          description: manager's password
-        - in: formData
-          name: restaurant_name
-          type: string
-          required: true
-          description: restaurant's name
+          description: new desk number
       responses:
-        201:
+        200:
           description: OK
         400:
           description: Bad Request
@@ -125,7 +147,7 @@ paths:
         - application/x-www-form-urlencoded
       parameters:
         - in: formData
-          name: number
+          name: manager_number
           type: string
           required: true
           description: manager's number
@@ -167,42 +189,173 @@ paths:
           description: No login
         500:
           description: Internal Server Error
-  /category:
-    get:
+  /menu/category:
+    post:
       tags:
-        - Category
-      summary: 获取所有品类
+        - Menu
+      summary: 创建分类
       consumes:
-        - application/x-www-form-urlencoded
+        - application/x-ww-form-urlencoded
       parameters:
-        - in: query
-          name: number
+        - in: formData
+          name: category_name
           type: string
           required: true
+          description: category name
       responses:
-        200:
+        201:
           description: OK
+          schema:
+            $ref: "#/definitions/Category"
         400:
           description: No login
         500:
           description: Internal Server Error
-  /dish:
-    get:
+  /menu/dish:
+    post:
       tags:
-        - Dish
-      summary: 获取单品信息
+        - Menu
+      summary: 创建菜品
       consumes:
-        - application/x-www-form-urlencoded
+        - application/x-ww-form-urlencoded
       parameters:
-        - in: query
-          name: number
+        - in: formData
+          name: dish_name
           type: string
           required: true
-        - in: query
-          name: category
+          description: dish name
+        - in: formData
+          name: price
+          type: number
+          required: true
+          description: dish price
+        - in: formData
+          name: flavor
           type: string
+          required: true
+          description: dish flavor
+        - in: formData
+          name: description
+          type: string
+          required: true
+          description: dish description
+        - in: formData
+          name: category_id
+          type: integer
+          required: true
+          description: category id to which dish belongs to
       responses:
-        200:
+        201:
+          description: OK
+          schema:
+            $ref: "#/definitions/Dish"
+        400:
+          description: No login
+        500:
+          description: Internal Server Error
+  /menu:
+    get:
+      tags:
+        - Menu
+      summary: 获取餐厅菜单
+      consumes:
+        - application/x-ww-form-urlencoded
+      parameters:
+        - in: query
+          name: restaurant_id
+          type: integer
+          required: true
+          description: restaurant id to which menu belongs to
+      responses:
+        201:
+          description: OK
+          schema:
+            $ref: "#/definitions/Menu"
+        400:
+          description: No login
+        500:
+          description: Internal Server Error
+  /order:
+    post:
+      tags:
+        - Order
+      summary: 创建订单
+      consumes:
+        - application/x-ww-form-urlencoded
+      parameters:
+        - in: formData
+          name: restauran_id
+          type: integer
+          required: true
+          description: restaurant id to which order belongs to
+        - in: formData
+          name: total_price
+          type: number
+          required: true
+          description: order total price
+        - in: formData
+          name: desk_id
+          type: integer
+          required: true
+          description: desk id where order created
+        - in: formData
+          name: tableware
+          type: string
+          required: true
+          description: 是/否
+        - in: formData
+          description: dish list in order. e.g `[{}, {}]`.(please ask for API designer for help)
+          name: dish_list
+          type: array
+          required: true
+          items:
+            type: integer
+      responses:
+        201:
+          description: OK
+          schema:
+            $ref: "#/definitions/Order"
+        400:
+          description: No login
+        500:
+          description: Internal Server Error
+    get:
+      tags:
+        - Order
+      summary: 获取餐厅订单
+      consumes:
+        - application/x-ww-form-urlencoded
+      parameters:
+        - in: query
+          name: date
+          type: string
+          required: true
+          description: 指定获取订单日期，e.g `YY-MM-DD`
+      responses:
+        201:
+          description: OK
+          schema:
+            $ref: "#/definitions/OrderCollection"
+        400:
+          description: No login
+        500:
+          description: Internal Server Error
+    put:
+      tags:
+        - Order
+      summary: 更新已完成订单
+      consumes:
+        - application/x-ww-form-urlencoded
+      parameters:
+        - in: formData
+          description: order list to update. e.g `[{}, {}]`.(please ask for API designer for help)
+          name: order_list
+          type: array
+          required: true
+          items:
+            type: integer
+      responses:
+        201:
           description: OK
         400:
           description: No login
@@ -227,3 +380,84 @@ definitions:
       restaurant_number:
         type: string
         description: restaurant's number
+  Order:
+    type: object
+    properties:
+      order_id:
+        type: integer
+        description: order id
+      restauran_id:
+        type: integer
+        description: restaurant id to which order belongs to
+      date:
+        type: string
+        description: when order makes, eg. YY-XX-DD HH:MM:SS
+      total_price:
+        type: number
+        description: order total price
+      tableware:
+        type: string
+        description: 是/否
+      state:
+        type: string
+        description: 未完成/已完成
+      dish_list:
+        type: array
+        items:
+          $ref: '#/definitions/Dish'
+  OrderCollection:
+    type: array
+    items:
+      $ref: "#/definitions/Order"
+  Menu:
+    type: array
+    items:
+      $ref: '#/definitions/Category'
+  Category:
+    type: object
+    properties:
+      category_id:
+        type: integer
+        description: category id
+      category_name:
+        type: string
+        description: category name
+      dishes:
+        $ref: '#/definitions/DishCollection'
+  DishCollection:
+    type: array
+    items:
+      $ref: '#/definitions/Dish'
+  Dish:
+    type: object
+    properties:
+      dish_id:
+        type: integer
+        description: dish id in database
+      date:
+        type: string
+        description: dish created date
+      dish_name:
+        type: string
+        description: dish name
+      image_id:
+        type: string
+        description: the dish image url
+      price:
+        type: number
+        description: dish price
+      flavor:
+        type: string
+        description: dish flavor
+      category_id:
+        type: integer
+        description: category's id to which the dish belongs.
+      favorable_rate:
+        type: number
+        description: dish favorable rate
+      description:
+        type: string
+        description: dish description
+      restaurant_id:
+        type: integer
+        description: restaurant's id to which the dish belongs.
