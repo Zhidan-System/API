@@ -252,6 +252,11 @@ paths:
         - application/x-ww-form-urlencoded
       parameters:
         - in: formData
+          name: category_id
+          type: integer
+          required: true
+          description: 更新类别对应id
+        - in: formData
           name: category_name
           type: string
           required: true
@@ -273,6 +278,11 @@ paths:
       consumes:
         - application/x-ww-form-urlencoded
       parameters:
+        - in: formData
+          name: dish_id
+          type: integer
+          required: true
+          description: 更新菜品对应id
         - in: formData
           name: dish_name
           type: string
@@ -439,7 +449,7 @@ paths:
     put:
       tags:
         - Order
-      summary: 更新已完成订单
+      summary: 完成订单
       consumes:
         - application/x-ww-form-urlencoded
       parameters:
