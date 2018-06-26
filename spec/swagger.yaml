@@ -355,6 +355,31 @@ paths:
           description: No login
         500:
           description: Internal Server Error
+    put:
+      tags:
+        - Menu
+      summary: 更新菜品告罄情况
+      consumes:
+        - application/x-ww-form-urlencoded
+      parameters:
+        - in: formData
+          name: dish_id_list
+          type: array
+          items:
+            type: integer
+          required: true
+          description: 批量更新菜品对应的id
+        - in: formData
+          name: sale_out
+          type: integer
+          description: 告罄情况：1代表告罄，0代表未告罄
+      responses:
+        200:
+          description: OK
+        400:
+          description: No login
+        500:
+          description: Internal Server Error
   /menu/dish/detail:
     post:
       tags:
