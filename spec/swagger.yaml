@@ -270,6 +270,25 @@ paths:
           description: No login
         500:
           description: Internal Server Error
+    delete:
+      tags:
+        - Menu
+      summary: 删除分类
+      consumes:
+        - application/x-ww-form-urlencoded
+      parameters:
+        - in: formData
+          name: category_id
+          type: integer
+          required: true
+          description: 删除分类对应id
+      responses:
+        200:
+          description: OK
+        400:
+          description: No login
+        500:
+          description: Internal Server Error
   /menu/dish:
     post:
       tags:
@@ -317,7 +336,27 @@ paths:
           description: No login
         500:
           description: Internal Server Error
-    put:
+    delete:
+      tags:
+        - Menu
+      summary: 删除单个菜品
+      consumes:
+        - application/x-ww-form-urlencoded
+      parameters:
+        - in: formData
+          name: dish_id
+          type: integer
+          required: true
+          description: 删除菜品对应id
+      responses:
+        200:
+          description: OK
+        400:
+          description: No login
+        500:
+          description: Internal Server Error
+  /menu/dish/detail:
+    post:
       tags:
         - Menu
         - TODO
