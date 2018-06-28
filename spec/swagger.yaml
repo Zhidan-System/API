@@ -62,6 +62,8 @@ tags:
     description: 菜单
   - name: Order
     description: 订单
+  - name: Statistics
+    description: 数据统计
   - name: TODO
     description: 未完成
 # Security scheme definitions that can be used across the specification.
@@ -355,31 +357,6 @@ paths:
           description: No login
         500:
           description: Internal Server Error
-    put:
-      tags:
-        - Menu
-      summary: 更新菜品告罄情况
-      consumes:
-        - application/x-ww-form-urlencoded
-      parameters:
-        - in: formData
-          name: dish_id_list
-          type: array
-          items:
-            type: integer
-          required: true
-          description: 批量更新菜品对应的id
-        - in: formData
-          name: sale_out
-          type: integer
-          description: 告罄情况：1代表告罄，0代表未告罄
-      responses:
-        200:
-          description: OK
-        400:
-          description: No login
-        500:
-          description: Internal Server Error
   /menu/dish/detail:
     post:
       tags:
@@ -527,6 +504,132 @@ paths:
       responses:
         201:
           description: OK
+        400:
+          description: No login
+        500:
+          description: Internal Server Error
+  /statistics:
+    get:
+      tags:
+        - Statistics
+      summary: 获取餐厅餐厅总销量
+      consumes:
+        - application/x-ww-form-urlencoded
+      responses:
+        200:
+          description: OK
+          schema:
+            type: number
+        400:
+          description: No login
+        500:
+          description: Internal Server Error
+  /statistics/day:
+    get:
+      tags:
+        - Statistics
+      summary: 获取餐厅餐厅某天营销额
+      consumes:
+        - application/x-ww-form-urlencoded
+      parameters:
+        - in: query
+          name: date
+          type: string
+          required: true
+          description: 指定日期，e.g `YY-MM-DD`
+      responses:
+        200:
+          description: OK
+          schema:
+            type: number
+        400:
+          description: No login
+        500:
+          description: Internal Server Error
+  /statistics/weekend:
+    get:
+      tags:
+        - Statistics
+      summary: 获取餐厅餐厅本周营销额
+      consumes:
+        - application/x-ww-form-urlencoded
+      parameters:
+        - in: query
+          name: date
+          type: string
+          required: true
+          description: 指定日期，e.g `YY-MM-DD HH-MM-SS`
+      responses:
+        200:
+          description: OK
+          schema:
+            type: number
+        400:
+          description: No login
+        500:
+          description: Internal Server Error
+  /statistics/month:
+    get:
+      tags:
+        - Statistics
+      summary: 获取餐厅餐厅某月营销额
+      consumes:
+        - application/x-ww-form-urlencoded
+      parameters:
+        - in: query
+          name: date
+          type: string
+          required: true
+          description: 指定日期，e.g `YY-MM-DD HH-MM-SS`
+      responses:
+        200:
+          description: OK
+          schema:
+            type: number
+        400:
+          description: No login
+        500:
+          description: Internal Server Error
+  /statistics/year:
+    get:
+      tags:
+        - Statistics
+      summary: 获取餐厅餐厅月营销额
+      consumes:
+        - application/x-ww-form-urlencoded
+      parameters:
+        - in: query
+          name: date
+          type: string
+          required: true
+          description: 指定日期，e.g `YY-MM-DD HH-MM-SS`
+      responses:
+        200:
+          description: OK
+          schema:
+            type: number
+        400:
+          description: No login
+        500:
+          description: Internal Server Error
+  /statistics/hour:
+    get:
+      tags:
+        - Statistics
+      summary: 获取餐厅餐厅某小时营销额
+      consumes:
+        - application/x-ww-form-urlencoded
+      parameters:
+        - in: query
+          name: date
+          type: string
+          required: true
+          description: 指定日期，e.g `YY-MM-DD HH-MM-SS`
+      responses:
+        200:
+          description: OK
+          schema:
+            type: number
         400:
           description: No login
         500:
